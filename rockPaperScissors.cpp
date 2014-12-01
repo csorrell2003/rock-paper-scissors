@@ -9,7 +9,7 @@ int main(){
 	int getChoice(int min, int max);
 	int displaymenu();
 	int randChoice();
-	bool roundWinner(int choice, int compChoice, int &count);
+	bool roundWinner(int choice, int compChoice, int &count, int &compCount);
 	void displayScore(int round, int count);
 	bool goAgain();
 
@@ -20,18 +20,13 @@ int main(){
 		/*variables*/
 		int choice, compChoice;
 		int count = 0;
-		int round = 0;
+		int compCount = 0;
 
-		for (int i = 0; i < 3; i++){
+		while((compCount != 2) && (count !=2)){
 			choice = displaymenu();
 			compChoice = randChoice();
-			roundWinner(choice, compChoice, count);
-			round++;
-			displayScore(round, count);
-
-			if (count == 2){
-				break;
-			}
+			roundWinner(choice, compChoice, count, compCount);
+			displayScore(compCount, count);
 			
 		}
 		if (count == 2){
@@ -74,17 +69,24 @@ int randChoice(){
 }
 
 /*roundWinner function*/
-bool roundWinner(int choice, int compChoice, int &count){
+bool roundWinner(int choice, int compChoice, int &count, int &compCount){
 	if (choice == 1 && compChoice == 2){
 		std::cout << "The Computer chose Paper.\n";
+		compCount++;
 		return false;
 	}
 	if (choice == 2 && compChoice == 3){
 		std::cout << "The Computer chose Scissors.\n";
+		compCount++;
 		return false;
 	}
 	if (choice == 3 && compChoice == 1){
 		std::cout << "The Computer chose Rock.\n";
+		compCount++;
+		return false;
+	}
+	if (choice == compChoice){
+		std::cout << "This round is a tie.";
 		return false;
 	}
 	else{
@@ -95,10 +97,9 @@ bool roundWinner(int choice, int compChoice, int &count){
 	
 }
 /*displayScore function*/
-void displayScore(int round, int count){
-	int compScore = round - count;
+void displayScore(int compCount, int count){
 	std::cout << "\nPlayer " << count << std::endl;
-	std::cout << "Computer " << compScore << std::endl << std::endl;
+	std::cout << "Computer " << compCount << std::endl << std::endl;
 
 }
 
